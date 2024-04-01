@@ -1,45 +1,69 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
-
 import {
+  getFirestore,
+  enableIndexedDbPersistence,
   doc,
   getDoc,
-  getDocs,
-  getFirestore,
   setDoc,
+  addDoc,
   collection,
   updateDoc,
-  addDoc,
+  getDocs,
 } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD9OsSMKNh2qsoPzat-bekTrREX-nFAZk0",
-  authDomain: "wastesetu2.firebaseapp.com",
-  projectId: "wastesetu2",
-  storageBucket: "wastesetu2.appspot.com",
-  messagingSenderId: "876736884007",
-  appId: "1:876736884007:web:633d3dca9e545c628d8d02",
-  measurementId: "G-7Y4GNHGLPQ"
+  apiKey: "AIzaSyCA5PF_8PQrRKobVXBAR9hvdVvJq43AC7Q",
+  authDomain: "waste-management-418513.firebaseapp.com",
+  projectId: "waste-management-418513",
+  storageBucket: "waste-management-418513.appspot.com",
+  messagingSenderId: "134903389774",
+  appId: "1:134903389774:web:a71dcaec7c900bdc242d1f",
+  measurementId: "G-WGJ2FJ5P6B",
 };
 
 const app = initializeApp(firebaseConfig);
+const firestore = getFirestore(app);
 
-export const firestore = getFirestore();
-export const storage = getStorage(app);
+// Enable Firestore persistence
+enableIndexedDbPersistence(firestore);
+
 export const auth = getAuth(app);
+export const storage = getStorage(app);
+export { firestore }; // Export firestore
+
 export default app;
+
+// The rest of your code using doc, getDoc, setDoc, addDoc, collection, updateDoc, and getDocs
 
 export async function createUserObject(userAuth, data) {
   if (!userAuth) return;
   const uid = userAuth.uid;
   const userRef = doc(firestore, `users/${uid}`);
-  const userSnapshot = await getDoc(userRef);
-  if (!userSnapshot.exists()) {
+
+  // Check if document exists before getting it
+  const userSnap = await getDoc(userRef).catch((error) => {
+    if (error.code === "firestore/failed-precondition") {
+      // Document does not exist, handle this case
+      return null;
+    }
+    throw error; // Re-throw other errors
+  });
+
+  if (!userSnap.exists()) {
     const { email, displayName } = userAuth;
-    const createdAt = new Date(), pickups = [];
+    const createdAt = new Date(),
+      pickups = [];
     try {
-      setDoc(userRef, { displayName, uid, email, pickups, createdAt, ...data });
+      await setDoc(userRef, {
+        displayName,
+        uid,
+        email,
+        pickups,
+        createdAt,
+        ...data,
+      });
     } catch (err) {
       //console.log(err);
     }
@@ -62,7 +86,7 @@ export const setPickups = async (pickup) => {
       OTP: pickup.OTP,
       status: pickup.status,
       user: userRef,
-      createdAt : new Date()
+      createdAt: new Date(),
     });
     const pickups = userSnap.pickups;
     await updateDoc(userRef, { pickups: [...pickups, docRef] });
@@ -84,8 +108,6 @@ export const setPickups = async (pickup) => {
 //   return pickupHistory;
 // };
 
-
-
 export const getPickupForGarbageCollector = async (userId) => {
   const userRef = doc(firestore, `users/${userId}`);
   const userSnap = (await getDoc(userRef)).data();
@@ -101,7 +123,7 @@ export const getPickupForGarbageCollector = async (userId) => {
     }
   });
   pickups.sort((a, b) => {
-      return a.dayTime - b.dayTime;
+    return a.dayTime - b.dayTime;
   });
   return pickups;
 };
@@ -110,8 +132,7 @@ export const updatePickupStatus = async (pickupId, status) => {
   try {
     const pickupRef = doc(firestore, `pickups/${pickupId}`);
     await updateDoc(pickupRef, { status });
-  }
-  catch (err) {
+  } catch (err) {
     //console.log(err);
   }
 };

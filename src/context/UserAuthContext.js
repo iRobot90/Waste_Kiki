@@ -3,6 +3,21 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, on
 import { auth, createUserObject } from "../firebase/firebase";
 import { useLocation, useNavigate } from "react-router-dom";
 import { onSnapshot } from "firebase/firestore";
+import { disableNetwork, enableNetwork } from 'firebase/firestore';
+
+
+function handleOfflineScenario() {
+  // If user is offline, display appropriate messages or disable certain actions.
+}
+
+// You can call handleOfflineScenario() in appropriate places, such as:
+// - Inside signUp() or other functions that interact with Firestore.
+// - Using a network state listener to detect offline/online changes.
+
+
+
+
+
 const userAuthContext = createContext();
 
 export function UserAuthContextProvider({ children }) {
