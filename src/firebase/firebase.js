@@ -14,13 +14,13 @@ import {
 } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCA5PF_8PQrRKobVXBAR9hvdVvJq43AC7Q",
-  authDomain: "waste-management-418513.firebaseapp.com",
-  projectId: "waste-management-418513",
-  storageBucket: "waste-management-418513.appspot.com",
-  messagingSenderId: "134903389774",
-  appId: "1:134903389774:web:a71dcaec7c900bdc242d1f",
-  measurementId: "G-WGJ2FJ5P6B",
+  apiKey: "AIzaSyACvQgfUsed57hQCkDhAtpWzw7qk8Z1Ra4",
+  authDomain: "waste-kiki.firebaseapp.com",
+  projectId: "waste-kiki",
+  storageBucket: "waste-kiki.appspot.com",
+  messagingSenderId: "470230470029",
+  appId: "1:470230470029:web:c053119ce30dfcf5fe41c4",
+  measurementId: "G-RVYVMDF02P",
 };
 
 const app = initializeApp(firebaseConfig);

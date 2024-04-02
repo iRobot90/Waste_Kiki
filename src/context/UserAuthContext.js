@@ -1,22 +1,8 @@
 import { createContext, useEffect, useState, useContext } from "react";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged} from "firebase/auth";
-import { auth, createUserObject } from "../firebase/firebase";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, getAuth } from "firebase/auth";
+import { createUserObject } from "../firebase/firebase";
 import { useLocation, useNavigate } from "react-router-dom";
 import { onSnapshot } from "firebase/firestore";
-import { disableNetwork, enableNetwork } from 'firebase/firestore';
-
-
-function handleOfflineScenario() {
-  // If user is offline, display appropriate messages or disable certain actions.
-}
-
-// You can call handleOfflineScenario() in appropriate places, such as:
-// - Inside signUp() or other functions that interact with Firestore.
-// - Using a network state listener to detect offline/online changes.
-
-
-
-
 
 const userAuthContext = createContext();
 
@@ -26,22 +12,24 @@ export function UserAuthContextProvider({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
   
+  const auth = getAuth(); // Initialize auth using getAuth() function
+
   async function signUp(email, password, data) {
-    try{
-      const { user } = await createUserWithEmailAndPassword( auth, email, password);
-      await createUserObject(user, data);  
-    }
-    catch(err){
-      //console.log(err);
+    try {
+      const user = await createUserWithEmailAndPassword(auth, email, password);
+      await createUserObject(user, data);
+      setUser(user);
+    } catch(err) {
+      console.error("Error signing up:", err);
     }
   }
 
-  function logIn(email, password) {
-    try{
-      return signInWithEmailAndPassword(auth, email, password);
-    }
-    catch(err){
-      //console.log(err);
+  async function logIn(email, password) {
+    try {
+      const { user } = await signInWithEmailAndPassword(auth, email, password);
+      setUser(user);
+    } catch (error) {
+      console.error("Error logging in:", error);
     }
   }
 
