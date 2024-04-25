@@ -20,28 +20,35 @@ export function UserAuthContextProvider({ children }) {
 
   const auth = getAuth(); // Initialize auth using getAuth() function
 
-
   async function signUp(email, password, data) {
     try {
-      const user = await createUserWithEmailAndPassword(auth, email, password);
-      await createUserObject(user, data);
-      setUser(user);
-    } catch(err) {
-      console.error("Error signing up:", err);
-    }
-  }
-  async function logIn(email, password) {
-    try {
-      const { user } = await signInWithEmailAndPassword(auth, email, password);
-      setUser(user);
-    } catch (error) {
-      console.error("Error logging in:", error);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await createUserObject(userCredential.user, data);
+      setUser(userCredential.user);
+    } catch (err) {
+      console.error("Error signing up:", err.message);
+      throw err; // Rethrow the error for the caller to handle if necessary
     }
   }
 
- 
-  function logOut() {
-    return signOut(auth);
+  async function logIn(email, password) {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      setUser(userCredential.user);
+    } catch (error) {
+      console.error("Error logging in:", error.message);
+      throw error; // Rethrow the error for the caller to handle if necessary
+    }
+  }
+
+  async function logOut() {
+    try {
+      await signOut(auth);
+      setUser(null);
+    } catch (error) {
+      console.error("Error logging out:", error.message);
+      throw error; // Rethrow the error for the caller to handle if necessary
+    }
   }
 
   useEffect(() => {

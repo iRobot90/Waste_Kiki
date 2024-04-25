@@ -20,7 +20,6 @@ const firebaseConfig = {
   projectId: "waste-kiki",
   storageBucket: "waste-kiki.appspot.com",
   messagingSenderId: "470230470029",
-  appId: "1:470230470029:web:c053119ce30dfcf5fe41c4",
   measurementId: "G-RVYVMDF02P",
 };
 
@@ -28,12 +27,35 @@ const app = initializeApp(firebaseConfig);
 
 const firestore = getFirestore(app);
 
+const persistenceSettings = {
+  forceOwnership: true, // Set to true if you want to force enable persistence
+};
+
 // Enable Firestore persistence
-enableIndexedDbPersistence(firestore);
+enableIndexedDbPersistence(firestore, persistenceSettings);
+try {
+  // Enable offline persistence with default settings
+  enableIndexedDbPersistence(firestore);
+} catch (error) {
+  if (error.code === "failed-precondition") {
+    // Multiple tabs are trying to access Firestore with offline persistence enabled
+    // Ensure that only one tab has persistence enabled at any given time
+    // If using experimentalForceOwningTab:true, make sure it's configured correctly
+    console.error("Failed to enable offline persistence:", error);
+  } else if (error.code === "unimplemented") {
+    // The current browser doesn't support all of the features required to enable
+    // persistence
+    console.error(
+      "Offline persistence is not supported in this browser:",
+      error
+    );
+  }
+}
 
 export const auth = getAuth(app);
 export const storage = getStorage(app);
 export { firestore }; // Export firestore
+
 export default app;
 
 export async function createUserObject(userAuth, data) {
