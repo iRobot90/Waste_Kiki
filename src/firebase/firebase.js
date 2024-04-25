@@ -20,6 +20,7 @@ const firebaseConfig = {
   projectId: "waste-kiki",
   storageBucket: "waste-kiki.appspot.com",
   messagingSenderId: "470230470029",
+  appId: "1:470230470029:web:c053119ce30dfcf5fe41c4",
   measurementId: "G-RVYVMDF02P",
 };
 
