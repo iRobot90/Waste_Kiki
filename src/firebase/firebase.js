@@ -6,6 +6,8 @@ import {
   enableIndexedDbPersistence,
   doc,
   getDoc,
+
+  getDocs,
   setDoc,
   addDoc,
   collection,
@@ -28,6 +30,33 @@ const firestore = getFirestore(app);
 
 // Enable Firestore persistence
 enableIndexedDbPersistence(firestore);
+
+const firestore = getFirestore(app);
+
+const persistenceSettings = {
+  forceOwnership: true, // Set to true if you want to force enable persistence
+};
+
+// Enable Firestore persistence
+enableIndexedDbPersistence(firestore, persistenceSettings);
+try {
+  // Enable offline persistence with default settings
+  enableIndexedDbPersistence(firestore);
+} catch (error) {
+  if (error.code === "failed-precondition") {
+    // Multiple tabs are trying to access Firestore with offline persistence enabled
+    // Ensure that only one tab has persistence enabled at any given time
+    // If using experimentalForceOwningTab:true, make sure it's configured correctly
+    console.error("Failed to enable offline persistence:", error);
+  } else if (error.code === "unimplemented") {
+    // The current browser doesn't support all of the features required to enable
+    // persistence
+    console.error(
+      "Offline persistence is not supported in this browser:",
+      error
+    );
+  }
+}
 
 export const auth = getAuth(app);
 export const storage = getStorage(app);

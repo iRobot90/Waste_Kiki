@@ -21,6 +21,10 @@
 .playground-1.mongodb.js
 
 
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+#secrets
+waste-kiki-firebase-adminsdk-nqdzz-b0447e3d0a.json

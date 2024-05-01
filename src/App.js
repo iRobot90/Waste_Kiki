@@ -1,7 +1,7 @@
 import './App.css';
 import Home from './pages/Home/Home';
 import About from './pages/Home/About';
-import Footer from './pages/Home/Footer'
+import Footer from './pages/Home/Footer';
 import Cards from './pages/SignUpCards/Cards';
 import Navbar from './pages/Navbar/Navbar';
 import LoginPage from './pages/login/LoginPage';
@@ -22,30 +22,25 @@ import {
 
 
 function App() {
-  
   return (
-   <>
-     <Navbar/>
+    <>
+      <Navbar />
       <Routes>
-         <Route path="/" element={
-          <div>
-            <Home/>
-            <About/>
-            <Footer/>
-          </div>
-         }/>
-         <Route path="/cards" element={<Cards/>}/>
-         <Route path="/citizens" element={<CitizenHome/>}/>
-         <Route path="/collector" element={<CollectorHome/>}/>
-         <Route path="/login" element={<LoginPage/>}/>
-         <Route path="/pickup" element={<PickUp/>}/>
-         <Route path="/citizenslogedin" element={<CitizenLogedin/>}/>
-         <Route path="/collectorlogedin" element={<CollectorLogedin/>}/>
-         <Route path="/history" element={<History/>}/>
-        <Route path="/schedule" element={<ScheduledPickup/>}/>
-        <Route path="/profile" element={<Profile/>}/>
-        <Route path="/map" element={<Map/>}/>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/cards" element={<Cards />} />
+        <Route path="/citizens" element={<CitizenHome />} />
+        <Route path="/collector" element={<CollectorHome />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/pickup" element={<PickUp />} />
+        <Route path="/citizenslogedin" element={<CitizenLogedin />} />
+        <Route path="/collectorlogedin" element={<CollectorLogedin />} />
+        <Route path="/history" element={<History />} />
+        <Route path="/schedule" element={<ScheduledPickup />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/map" element={<Map />} />
       </Routes>
+      <Footer />
     </>
   );
 }

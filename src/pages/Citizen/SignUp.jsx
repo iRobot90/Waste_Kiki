@@ -20,6 +20,12 @@ export default function SignUp(props) {
     }
   };
 
+
+  const handleButtonClick = () => {
+    console.log("Button clicked"); // Add logging for button click event
+    setExtend((curr) => !curr);
+  };
+  
   return (
     <>
       <form
@@ -61,6 +67,8 @@ export default function SignUp(props) {
         <button
           className="border w-full my-5 py-2 bg-teal-900 hover:bg-teal-800 text-white"
           type="submit"
+
+          onClick={handleButtonClick} // Attach the button click handler
         >
           Sign Up
         </button>

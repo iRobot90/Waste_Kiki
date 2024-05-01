@@ -32,6 +32,45 @@ function Map() {
     return <SkeletonText />;
   }
 
+  // /** @type React.MutableRefObject<HTMLInputElement> */
+  // const originRef = useRef()
+  // /** @type React.MutableRefObject<HTMLInputElement> */
+  // const destiantionRef = useRef()
+
+  if (!pos) {
+    return <SkeletonText />;
+  }
+
+  //   async function calculateRoute() {
+  // Db query to get location data as a string in array
+  // let arr = db.get();
+  // let wypts = [];
+  // let arr = ["Mega Mall Gurgaon", "Maharaja Agrasen Institute of Technology"];
+  // let dest = arr[arr.length - 1];
+  // for (let i = 0; i < arr.length - 1; i++) {
+  //   wypts.push({ location: arr[i], stopover: true });
+  // }
+  // let curr = pos;
+  // eslint-disable-next-line no-undef
+  //     const directionsService = new google.maps.DirectionsService();
+  //     const results = await directionsService.route({
+  //       origin: curr,
+  //       destination: dest,
+  //       waypoints: wypts,
+  //       // eslint-disable-next-line no-undef
+  //       travelMode: google.maps.TravelMode.DRIVING,
+  //     });
+  //     setDirectionsResponse(results);
+  //     setDistance(results.routes[0].legs[0].distance.text);
+  //     setDuration(results.routes[0].legs[0].duration.text);
+  //   }
+
+  //   function clearRoute() {
+  //     setDirectionsResponse(null);
+  //     setDistance("");
+  //     setDuration("");
+  //   }
+
   return (
     <Flex
       position="relative"
@@ -74,4 +113,5 @@ function Map() {
   );
 }
 
+export default Map;
 export default Map;
