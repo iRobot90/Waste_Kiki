@@ -5,6 +5,8 @@ export default function CitizenLanding() {
   return (
     <div className="h-screen flex flex-col justify-center items-center bg-teal-900 text-white">
       <div className="text-center">
+        <h1 className="text-4xl font-bold mb-4">Welcome to Waste-Kiki</h1>
+
         <h1 className="text-4xl font-bold mb-4">
           Welcome to Waste-Kiki There is nothing like <strong>away</strong>
           <br />

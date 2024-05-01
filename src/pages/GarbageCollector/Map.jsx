@@ -28,6 +28,10 @@ function Map() {
   const originRef = useRef(null);
   const destinationRef = useRef(null);
 
+  if (!pos) {
+    return <SkeletonText />;
+  }
+
   // /** @type React.MutableRefObject<HTMLInputElement> */
   // const originRef = useRef()
   // /** @type React.MutableRefObject<HTMLInputElement> */
@@ -109,4 +113,5 @@ function Map() {
   );
 }
 
+export default Map;
 export default Map;

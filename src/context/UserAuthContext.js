@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState, useContext } from "react";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, getAuth } from "firebase/auth";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -17,11 +18,19 @@ export function UserAuthContextProvider({ children }) {
   const [loadingUser, setLoadingUser] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
+  
+
 
   const auth = getAuth(); // Initialize auth using getAuth() function
 
   async function signUp(email, password, data) {
     try {
+      const user = await createUserWithEmailAndPassword(auth, email, password);
+      await createUserObject(user, data);
+      setUser(user);
+    } catch(err) {
+      console.error("Error signing up:", err);
+
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       await createUserObject(userCredential.user, data);
       setUser(userCredential.user);
@@ -33,6 +42,10 @@ export function UserAuthContextProvider({ children }) {
 
   async function logIn(email, password) {
     try {
+      const { user } = await signInWithEmailAndPassword(auth, email, password);
+      setUser(user);
+    } catch (error) {
+      console.error("Error logging in:", error);
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       setUser(userCredential.user);
     } catch (error) {

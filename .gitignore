@@ -18,6 +18,9 @@
 .env.test.local
 .env.production.local
 .env
+.playground-1.mongodb.js
+
+
 
 npm-debug.log*
 yarn-debug.log*

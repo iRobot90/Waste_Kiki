@@ -1,17 +1,18 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
-
 import {
   getFirestore,
   enableIndexedDbPersistence,
   doc,
   getDoc,
+
   getDocs,
   setDoc,
+  addDoc,
   collection,
   updateDoc,
-  addDoc,
+  getDocs,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -25,6 +26,10 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const firestore = getFirestore(app);
+
+// Enable Firestore persistence
+enableIndexedDbPersistence(firestore);
 
 const firestore = getFirestore(app);
 
@@ -59,10 +64,14 @@ export { firestore }; // Export firestore
 
 export default app;
 
+// The rest of your code using doc, getDoc, setDoc, addDoc, collection, updateDoc, and getDocs
+
 export async function createUserObject(userAuth, data) {
   if (!userAuth) return;
   const uid = userAuth.uid;
   const userRef = doc(firestore, `users/${uid}`);
+
+  // Check if document exists before getting it
   const userSnap = await getDoc(userRef).catch((error) => {
     if (error.code === "firestore/failed-precondition") {
       // Document does not exist, handle this case
